@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kashif Raza — Software Engineer & Creative Technologist</title>
+    <meta name="description"
+        content="Kashif Raza — Software Engineer blending electronics and web to build clean, fast, useful products.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 900: '#0a0a0a', 800: '#111111', 700: '#1a1a1a', 600: '#1e1e1e', 500: '#2a2a2a', 400: '#333333', 300: '#444444' },
+                        neon: '#00ff00',
+                        cyan: '#00d7ff',
+                        txt: '#e6e6e6',
+                        txtmuted: '#999999',
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --fg: #0a0a0a;
+            --muted: #666666;
+            --accent: #00cc00;
+            --card: #f5f5f5;
+            --border: #e0e0e0;
+            --scanline: rgba(0, 0, 0, 0.03);
+        }
+
+        .dark {
+            --bg: #0a0a0a;
+            --fg: #e6e6e6;
+            --muted: #999999;
+            --accent: #00ff00;
+            --card: #1a1a1a;
+            --border: #333333;
+            --scanline: rgba(0, 255, 0, 0.03);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        .fade-up-delay-1 {
+            animation-delay: 0.1s;
+            opacity: 0;
+        }
+
+        .fade-up-delay-2 {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        .fade-up-delay-3 {
+            animation-delay: 0.3s;
+            opacity: 0;
+        }
+
+        .fade-up-delay-4 {
+            animation-delay: 0.4s;
+            opacity: 0;
+        }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        .scanline {
+            background: linear-gradient(transparent, var(--scanline), transparent);
+            height: 100px;
+            animation: scanline 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 5px rgba(0, 255, 0, 0.3), 0 0 10px rgba(0, 255, 0, 0.1);
+            }
+
+            50% {
+                box-shadow: 0 0 15px rgba(0, 255, 0, 0.5), 0 0 30px rgba(0, 255, 0, 0.2);
+            }
+        }
+
+        .dark .glow-pulse {
+            animation: glowPulse 3s ease-in-out infinite;
+        }
+
+        .bg-card {
+            background-color: var(--card);
+        }
+
+        .text-fg {
+            color: var(--fg);
+        }
+
+        .text-muted {
+            color: var(--muted);
+        }
+
+        .border-themed {
+            border-color: var(--border);
+        }
+
+        .article-body h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--fg);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .article-body h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--fg);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        .article-body p {
+            color: var(--muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .article-body ul {
+            list-style: none;
+            padding-left: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .article-body ul li {
+            position: relative;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .article-body ul li::before {
+            content: '>';
+            position: absolute;
+            left: -1.25rem;
+            color: var(--accent);
+        }
+
+        .article-body code {
+            background: var(--card);
+            color: var(--accent);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85em;
+        }
+
+        .article-body pre {
+            background: var(--card);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 0.5rem 0.5rem 0;
+            padding: 1rem 1.25rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .article-body pre code {
+            background: transparent;
+            padding: 0;
+        }
+
+        .tag-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .tag-btn {
+            transition: all 0.3s ease;
+        }
+
+        .grid-overlay {
+            background-image: linear-gradient(rgba(128, 128, 128, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .dark .grid-overlay {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9999;
+            background: var(--card);
+            border: 1px solid var(--accent);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            color: var(--fg);
+            transform: translateY(150%);
+            transition: transform 0.4s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .marquee {
+            animation: marquee 30s linear infinite;
+        }
+
+        .marquee:hover {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+
+<body class="font-sans transition-colors duration-300">
+
+    <div class="dark:fixed fixed inset-0 pointer-events-none z-[100] opacity-[0.02] dark:opacity-[0.02] opacity-0"
+        style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E');">
+    </div>
+    <div class="dark:block hidden fixed inset-0 pointer-events-none z-[99] overflow-hidden">
+        <div class="scanline absolute inset-x-0"></div>
+    </div>
+    <div class="fixed inset-0 pointer-events-none z-0 grid-overlay opacity-50"></div>
+
+    <nav id="navbar"
+        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 dark:bg-dark-900/85 backdrop-blur-md border-b border-transparent dark:border-dark-400">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="#hero" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 rounded-lg bg-neon dark:bg-neon flex items-center justify-center glow-pulse">
+                    <i data-lucide="terminal" class="w-4 h-4 text-dark-900 dark:text-dark-900"
+                        style="stroke-width:2.5"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-fg">Kashif<span class="text-neon">Raza</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#projects"
+                    class="text-sm font-medium text-muted hover:text-neon transition-colors duration-300">Projects</a>
+                <a href="#about"
+                    class="text-sm font-medium text-muted hover:text-neon transition-colors duration-300">About</a>
+                <a href="#contact"
+                    class="text-sm font-medium text-muted hover:text-neon transition-colors duration-300">Contact</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="themeToggle"
+                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-500 transition-colors"
+                    title="Toggle Theme">
+                    <i data-lucide="sun" class="w-5 h-5 text-muted dark:text-txtmuted block dark:hidden"></i>
+                    <i data-lucide="moon" class="w-5 h-5 text-txtmuted hidden dark:block"></i>
+                </button>
+                <a href="https://github.com/altkriz" target="_blank"
+                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-500 transition-colors" title="GitHub">
+                    <i data-lucide="github"
+                        class="w-5 h-5 text-muted dark:text-txtmuted hover:text-neon transition-colors"></i>
+                </a>
+                <button id="mobileMenuBtn"
+                    class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-500 transition-colors">
+                    <i data-lucide="menu" class="w-5 h-5 text-muted dark:text-txtmuted"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileMenu"
+            class="md:hidden hidden border-t border-gray-200 dark:border-dark-400 bg-white dark:bg-dark-800">
+            <div class="px-6 py-4 flex flex-col gap-3">
+                <a href="#projects"
+                    class="text-sm font-medium text-muted dark:text-txtmuted hover:text-neon py-2 mobile-link">Projects</a>
+                <a href="#about"
+                    class="text-sm font-medium text-muted dark:text-txtmuted hover:text-neon py-2 mobile-link">About</a>
+                <a href="#contact"
+                    class="text-sm font-medium text-muted dark:text-txtmuted hover:text-neon py-2 mobile-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute top-1/4 -right-20 w-64 h-64 bg-neon/5 dark:bg-neon/5 bg-gray-100 rounded-full blur-3xl">
+        </div>
+        <div class="absolute bottom-1/4 -left-20 w-48 h-48 bg-cyan/5 dark:bg-cyan/5 bg-gray-50 rounded-full blur-3xl">
+        </div>
+        <div class="max-w-6xl mx-auto px-6 w-full relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="fade-up">
+                        <div
+                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-gray-200 dark:border-dark-400 bg-gray-50 dark:bg-dark-700/50 mb-6">
+                            <span class="w-2 h-2 rounded-full bg-neon animate-pulse"></span>
+                            <span class="text-xs font-mono text-neon">Available for opportunities</span>
+                        </div>
+                    </div>
+                    <h1
+                        class="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tighter fade-up fade-up-delay-1">
+                        <span class="text-fg">Hi, I'm </span>
+                        <span class="bg-gradient-to-r from-neon to-cyan bg-clip-text text-transparent">Kashif
+                            Raza</span>
+                        <br>
+                        <span class="text-fg">I build</span>
+                        <br>
+                        <span id="typed-text" class="text-neon font-mono"></span>
+                        <span class="cursor-blink text-neon font-mono">|</span>
+                    </h1>
+                    <p class="text-lg text-muted leading-relaxed max-w-xl fade-up fade-up-delay-2">
+                        Software Engineer & Creative Technologist. Blending electronics engineering with modern web
+                        development. I build focused, fast products with clean UX.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-4 fade-up fade-up-delay-3">
+                        <a href="#contact"
+                            class="inline-flex items-center gap-2 px-6 py-3.5 bg-neon text-dark-900 font-semibold rounded-xl hover:shadow-[0_0_25px_rgba(0,255,0,0.3)] transition-all duration-300">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                            Contact Me
+                        </a>
+                        <a href="https://altkriz.github.io/updatedresume.pdf" target="_blank"
+                            class="inline-flex items-center gap-2 px-6 py-3.5 border border-gray-300 dark:border-dark-400 text-fg rounded-xl hover:border-neon hover:text-neon transition-all duration-300 bg-white dark:bg-transparent">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            Download CV
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-6 pt-2 fade-up fade-up-delay-4">
+                        <a href="https://github.com/altkriz" target="_blank"
+                            class="text-muted dark:text-txtmuted hover:text-neon transition-colors"><i
+                                data-lucide="github" class="w-5 h-5"></i></a>
+                        <a href="https://twitter.com/altkriz" target="_blank"
+                            class="text-muted dark:text-txtmuted hover:text-cyan transition-colors"><i
+                                data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="https://www.instagram.com/altkriz" target="_blank"
+                            class="text-muted dark:text-txtmuted hover:text-neon transition-colors"><i
+                                data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <div class="h-5 w-px bg-gray-200 dark:bg-dark-400"></div>
+                        <span class="text-xs font-mono text-muted flex items-center gap-2"><i data-lucide="map-pin"
+                                class="w-3 h-3"></i>New Delhi, India</span>
+                    </div>
+                </div>
+                <div class="lg:col-span-5">
+                    <div
+                        class="bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden shadow-xl">
+                        <div
+                            class="flex items-center gap-2 px-4 py-3 bg-gray-50 dark:bg-dark-700 border-b border-gray-200 dark:border-dark-400">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                            <span class="ml-2 text-xs font-mono text-muted">~/kashif-raza</span>
+                        </div>
+                        <div class="p-5 font-mono text-sm leading-7 space-y-1">
+                            <p><span class="text-neon">$</span> <span class="text-fg">cat profile.json</span></p>
+                            <p class="text-muted">{</p>
+                            <p class="pl-4"><span class="text-cyan">"name"</span>: <span class="text-neon">"Kashif
+                                    Raza"</span>,</p>
+                            <p class="pl-4"><span class="text-cyan">"role"</span>: <span class="text-neon">"Software
+                                    Engineer"</span>,</p>
+                            <p class="pl-4"><span class="text-cyan">"location"</span>: <span class="text-neon">"New
+                                    Delhi, India"</span>,</p>
+                            <p class="pl-4"><span class="text-cyan">"languages"</span>: [<span
+                                    class="text-neon">"English"</span>, <span class="text-neon">"Urdu"</span>, <span
+                                    class="text-neon">"Arabic"</span>],</p>
+                            <p class="pl-4"><span class="text-cyan">"tech_stack"</span>: [<span
+                                    class="text-neon">"Web"</span>, <span class="text-neon">"IoT"</span>, <span
+                                    class="text-neon">"Python"</span>],</p>
+                            <p class="pl-4"><span class="text-cyan">"hobbies"</span>: <span class="text-neon">"Building
+                                    Tools"</span></p>
+                            <p class="text-muted">}</p>
+                            <p class="mt-2"><span class="text-neon">$</span> <span class="cursor-blink">|</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="relative py-24 bg-gray-50 dark:bg-dark-800">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+                <div>
+                    <span class="text-xs font-mono text-neon uppercase tracking-widest">// Portfolio</span>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 text-fg">Featured <span
+                            class="text-cyan">Projects & Tools</span></h2>
+                    <p class="text-muted mt-2">Web applications, IoT systems, and free tools I've designed and built.
+                    </p>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <button
+                        class="tag-btn active px-4 py-1.5 rounded-full text-xs font-semibold border border-gray-200 dark:border-dark-400"
+                        data-tag="all">All</button>
+                    <button
+                        class="tag-btn px-4 py-1.5 rounded-full text-xs font-semibold border border-gray-200 dark:border-dark-400 text-muted"
+                        data-tag="web">Web</button>
+                    <button
+                        class="tag-btn px-4 py-1.5 rounded-full text-xs font-semibold border border-gray-200 dark:border-dark-400 text-muted"
+                        data-tag="iot">IoT</button>
+                    <button
+                        class="tag-btn px-4 py-1.5 rounded-full text-xs font-semibold border border-gray-200 dark:border-dark-400 text-muted"
+                        data-tag="tool">Tools</button>
+                </div>
+            </div>
+            <div id="articlesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-neon/40 transition-all duration-500 cursor-pointer"
+                    data-tags="web tool" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img src="https://altkriz.github.io/htmleditor/img/scr1.png"
+                            alt="KrizVibe Editor"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-neon/20 text-neon text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-neon/30">TOOL</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2024</span><span>|</span><span>HTML Editor</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-neon transition-colors duration-300 leading-snug">
+                            KrizVibe Editor</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Vibecoding platform with real-time
+                            HTML preview. Perfect for quick prototyping.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">HTML5</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">JS</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>KrizVibe Editor</h2>
+                        <p>A vibecoding platform designed for the modern creative developer. Real-time HTML editor with
+                            live preview.</p><a href="https://altkriz.github.io/htmleditor" target="_blank">Launch
+                            Editor →</a>
+                    </template>
+                </article>
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-cyan/40 transition-all duration-500 cursor-pointer"
+                    data-tags="web tool" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img src="https://altkriz.github.io/img/krizbio.png"
+                            alt="KrizBio"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-cyan/20 text-cyan text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-cyan/30">TOOL</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2024</span><span>|</span><span>Link in Bio</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-cyan transition-colors duration-300 leading-snug">
+                            KrizBio Link Maker</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Smart URL shortener and bio link tool
+                            for creators and businesses.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">PHP</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">API</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>KrizBio</h2>
+                        <p>A smart solution for creators and businesses to manage their online presence. KrizBio acts as
+                            a smart URL shortener and a bio link tool.</p><a href="https://bio.kriztech.in"
+                            target="_blank">Visit Site →</a>
+                    </template>
+                </article>
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-neon/40 transition-all duration-500 cursor-pointer"
+                    data-tags="tool" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img src="https://altkriz.github.io/img/imagexscr.png"
+                            alt="ImageX"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-purple-500/20 text-purple-400 text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-purple-500/30">TOOL</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2024</span><span>|</span><span>AI Image Gen</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-neon transition-colors duration-300 leading-snug">
+                            ImageX</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Free AI-powered image generation.
+                            Create stunning visuals in seconds.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">AI</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Python</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>ImageX</h2>
+                        <p>Free AI-powered image generation tool. Create stunning visuals in seconds using advanced ML
+                            models.</p><a href="https://kriztech.in/imagen" target="_blank">Open Tool →</a>
+                    </template>
+                </article>
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-cyan/40 transition-all duration-500 cursor-pointer"
+                    data-tags="tool" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img src="https://altkriz.github.io/img/voicescr.png"
+                            alt="VoiceCraft"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-cyan/20 text-cyan text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-cyan/30">TOOL</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2024</span><span>|</span><span>TTS</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-cyan transition-colors duration-300 leading-snug">
+                            VoiceCraft</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Convert text to lifelike speech with
+                            multiple voice options.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">TTS</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">AI</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>VoiceCraft</h2>
+                        <p>Convert text to lifelike speech with multiple voice options. Perfect for content creators.
+                        </p><a href="https://kriztech.in/voicecraft" target="_blank">Open Tool →</a>
+                    </template>
+                </article>
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-neon/40 transition-all duration-500 cursor-pointer"
+                    data-tags="tool" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img src="https://altkriz.github.io/img/krizplayscr.png"
+                            alt="KrizPlay"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-yellow-500/20 text-yellow-400 text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-yellow-500/30">TOOL</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2024</span><span>|</span><span>Streaming</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-neon transition-colors duration-300 leading-snug">
+                            KrizPlay</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Stream movies and web series.
+                            Entertainment at your fingertips.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Media</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Streaming</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>KrizPlay</h2>
+                        <p>Stream movies and web series. Entertainment at your fingertips with a clean interface.</p><a
+                            href="https://kriztech.in/movie" target="_blank">Open Tool →</a>
+                    </template>
+                </article>
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-neon/40 transition-all duration-500 cursor-pointer"
+                    data-tags="iot" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img
+                            src="https://1.bp.blogspot.com/-fEOiUn8vCuQ/X2YkOTDZm0I/AAAAAAAAAV8/OJHbuv-h9rU1Pf-Q049tPBhIygtMkt0PACLcBGAsYHQ/w640-h426/OpenVPN-Server-on-Raspberry-Pi.jpg"
+                            alt="VPN Server"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-purple-500/20 text-purple-400 text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-purple-500/30">IoT</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2020</span><span>|</span><span>Security</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-neon transition-colors duration-300 leading-snug">
+                            Raspberry Pi VPN Server</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Turn Raspberry Pi Zero into a secure
+                            VPN server using OpenVPN.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Linux</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Pi</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>Raspberry Pi VPN Server</h2>
+                        <p>Turn a Raspberry Pi Zero into a secure VPN server using OpenVPN. Secure browsing from
+                            anywhere.</p><a
+                            href="https://kriztechblogs.blogspot.com/2020/09/turn-your-raspberry-pi-zero-into-vpn.html"
+                            target="_blank">Read Guide →</a>
+                    </template>
+                </article>
+                <article
+                    class="article-card group relative bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-2xl overflow-hidden hover:border-cyan/40 transition-all duration-500 cursor-pointer"
+                    data-tags="iot" onclick="openArticle(this)">
+                    <div class="relative overflow-hidden"><img
+                            src="https://circuitdigest.com/sites/default/files/projectimage_mic/Raspberry-Pi-Internet-radio-and-Streaming-Station.jpg"
+                            alt="Internet Radio"
+                            class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-white dark:from-dark-700 via-transparent to-transparent">
+                        </div><span
+                            class="absolute top-4 left-4 px-2.5 py-1 bg-yellow-500/20 text-yellow-400 text-[10px] font-mono font-bold uppercase rounded-md backdrop-blur-sm border border-yellow-500/30">IoT</span>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center gap-3 text-xs text-muted font-mono">
+                            <span>2021</span><span>|</span><span>Streaming</span></div>
+                        <h3
+                            class="text-lg font-bold text-fg group-hover:text-cyan transition-colors duration-300 leading-snug">
+                            Internet Radio Station</h3>
+                        <p class="text-sm text-muted leading-relaxed line-clamp-2">Raspberry Pi powered internet radio
+                            with streaming capabilities.</p>
+                        <div class="flex items-center gap-2 pt-2"><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Streaming</span><span
+                                class="px-2 py-0.5 rounded bg-gray-100 dark:bg-dark-500 text-[10px] font-mono text-muted">Hardware</span>
+                        </div>
+                    </div>
+                    <template class="article-source">
+                        <h2>Internet Radio Station</h2>
+                        <p>A Raspberry Pi powered internet radio with streaming capabilities and custom interface.</p><a
+                            href="https://kriztechblogs.blogspot.com/2021/06/raspberry-pi-internet-radio-and.html"
+                            target="_blank">Read Guide →</a>
+                    </template>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section
+        class="relative py-12 border-y border-gray-200 dark:border-dark-400 bg-gray-50 dark:bg-dark-800 overflow-hidden">
+        <div class="flex whitespace-nowrap">
+            <div class="marquee flex items-center gap-12 px-6"><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">HTML5</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">CSS3</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-cyan transition-colors">JavaScript</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">Tailwind
+                    CSS</span><span class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">Python</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-cyan transition-colors">PHP</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">Raspberry
+                    Pi</span><span class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">IoT</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-cyan transition-colors">Electronics</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors ml-12">HTML5</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">CSS3</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-cyan transition-colors">JavaScript</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">Tailwind
+                    CSS</span><span class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">Python</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-cyan transition-colors">PHP</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">Raspberry
+                    Pi</span><span class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-neon transition-colors">IoT</span><span
+                    class="text-gray-300 dark:text-dark-500">/</span><span
+                    class="text-2xl font-bold text-gray-300 dark:text-dark-400 hover:text-cyan transition-colors">Electronics</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="relative py-24">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-5">
+                    <div class="relative">
+                        <div
+                            class="aspect-square rounded-2xl overflow-hidden border border-gray-200 dark:border-dark-400 bg-gray-50 dark:bg-dark-700">
+                            <img src="https://altkriz.github.io/img/image.png" alt="Kashif Raza"
+                                class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 w-32 h-32 border border-neon/30 rounded-xl -z-10"></div>
+                        <div class="absolute -top-4 -left-4 w-24 h-24 bg-neon/5 rounded-xl -z-10"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 space-y-8">
+                    <div><span class="text-xs font-mono text-neon uppercase tracking-widest">// About Me</span>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 text-fg">Engineering with<br><span
+                                class="text-cyan">Purpose</span></h2>
+                    </div>
+                    <div class="space-y-4 text-muted leading-relaxed">
+                        <p>With roots in electronics engineering and currently pursuing a Master's in Computer
+                            Applications, I bring a systems-level mindset to every project. I think in layers — from
+                            hardware interfaces to API architecture to polished user experiences.</p>
+                        <p>My approach combines pragmatic engineering with intentional design. Every line of code serves
+                            a purpose, every interaction is considered, and every product is built to perform.</p>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+                        <div
+                            class="p-4 bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-xl text-center">
+                            <div class="text-2xl font-bold text-neon">5+</div>
+                            <div class="text-xs text-muted font-mono mt-1">Years Exp</div>
+                        </div>
+                        <div
+                            class="p-4 bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-xl text-center">
+                            <div class="text-2xl font-bold text-cyan">20+</div>
+                            <div class="text-xs text-muted font-mono mt-1">Projects</div>
+                        </div>
+                        <div
+                            class="p-4 bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-xl text-center">
+                            <div class="text-2xl font-bold text-neon">85%</div>
+                            <div class="text-xs text-muted font-mono mt-1">Tailwind</div>
+                        </div>
+                        <div
+                            class="p-4 bg-white dark:bg-dark-700 border border-gray-200 dark:border-dark-400 rounded-xl text-center">
+                            <div class="text-2xl font-bold text-cyan">75%</div>
+                            <div class="text-xs text-muted font-mono mt-1">IoT/JS</div>
+                        </div>
+                    </div><a href="https://altkriz.github.io/updatedresume.pdf" target="_blank"
+                        class="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 dark:border-dark-400 text-fg rounded-xl hover:border-neon hover:text-neon transition-all duration-300 bg-white dark:bg-transparent"><i
+                            data-lucide="file-text" class="w-4 h-4"></i>Download Resume</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="relative py-24 bg-gray-50 dark:bg-dark-800">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="space-y-8">
+                    <div><span class="text-xs font-mono text-neon uppercase tracking-widest">// Get In Touch</span>
+                        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-3 text-fg">Let's Build<br><span
+                                class="text-cyan">Something Useful</span></h2>
+                    </div>
+                    <p class="text-muted leading-relaxed max-w-md">Open to collaborations, freelance work, and
+                        interesting problems. Feel free to reach out.</p>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center border border-gray-200 dark:border-transparent">
+                                <i data-lucide="mail" class="w-5 h-5 text-neon"></i></div>
+                            <div>
+                                <div class="text-xs text-muted font-mono">Email</div><a href="mailto:altkriz@gmail.com"
+                                    class="text-fg hover:text-neon transition-colors">altkriz@gmail.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center border border-gray-200 dark:border-transparent">
+                                <i data-lucide="phone" class="w-5 h-5 text-cyan"></i></div>
+                            <div>
+                                <div class="text-xs text-muted font-mono">Phone</div><a href="tel:+919315503145"
+                                    class="text-fg hover:text-cyan transition-colors">+91 9315503145</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center border border-gray-200 dark:border-transparent">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-neon"></i></div>
+                            <div>
+                                <div class="text-xs text-muted font-mono">Location</div><span class="text-fg">New Delhi,
+                                    India</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4"><a href="https://github.com/altkriz" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center hover:bg-neon/10 border border-gray-200 dark:border-transparent"><i
+                                data-lucide="github" class="w-5 h-5 text-muted hover:text-neon"></i></a><a
+                            href="https://twitter.com/altkriz" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center hover:bg-cyan/10 border border-gray-200 dark:border-transparent"><i
+                                data-lucide="twitter" class="w-5 h-5 text-muted hover:text-cyan"></i></a><a
+                            href="https://www.instagram.com/altkriz" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center hover:bg-neon/10 border border-gray-200 dark:border-transparent"><i
+                                data-lucide="instagram" class="w-5 h-5 text-muted hover:text-neon"></i></a><a
+                            href="https://www.facebook.com/altkriz" target="_blank"
+                            class="w-10 h-10 rounded-lg bg-white dark:bg-dark-600 flex items-center justify-center hover:bg-cyan/10 border border-gray-200 dark:border-transparent"><i
+                                data-lucide="facebook" class="w-5 h-5 text-muted hover:text-cyan"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="relative py-12 border-t border-gray-200 dark:border-dark-400 bg-white dark:bg-dark-900">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-dark-600 flex items-center justify-center"><i
+                            data-lucide="terminal" class="w-4 h-4 text-neon"></i></div><span
+                        class="text-lg font-bold tracking-tight text-fg">Kashif<span
+                            class="text-neon">Raza</span></span>
+                </div>
+                <div class="text-xs font-mono text-muted">Crafted with code in New Delhi. <span id="footerYear"></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="articleModal" class="fixed inset-0 z-[200] opacity-0 invisible flex items-center justify-center p-4"
+        onclick="closeArticle(event)">
+        <div class="absolute inset-0 bg-white/95 dark:bg-dark-900/95 backdrop-blur-sm"></div>
+        <div id="modalContent"
+            class="relative bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-400 rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden"
+            onclick="event.stopPropagation()">
+            <div
+                class="sticky top-0 bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-400 px-8 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-3"><span id="modalTag"
+                        class="px-2.5 py-1 bg-neon/20 text-neon text-[10px] font-mono font-bold uppercase rounded-md border border-neon/30">WEB</span>
+                </div><button onclick="closeArticle()"
+                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-500"><i data-lucide="x"
+                        class="w-5 h-5 text-muted"></i></button>
+            </div>
+            <div class="px-8 py-6 overflow-y-auto max-h-[calc(85vh-70px)]">
+                <h1 id="modalTitle" class="text-2xl md:text-3xl font-bold text-fg mb-6"></h1>
+                <div id="modalBody" class="article-body"></div>
+            </div>
+        </div>
+    </div>
+    <div id="toast" class="toast">
+        <div class="flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-neon"></i><span
+                id="toastMessage">Message sent successfully!</span></div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+        const themeToggle = document.getElementById('themeToggle');
+        const htmlEl = document.documentElement;
+        if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+            htmlEl.classList.remove('dark');
+        } else {
+            htmlEl.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            htmlEl.classList.toggle('dark');
+            localStorage.theme = htmlEl.classList.contains('dark') ? 'dark' : 'light';
+            setTimeout(() => lucide.createIcons(), 50);
+        });
+        const typedWords = ['IoT Systems', 'Web Applications', 'Clean UX', 'Raspberry Pi Projects', 'Open Source Tools'];
+        let wordIndex = 0, charIndex = 0, isDeleting = false;
+        const typedElement = document.getElementById('typed-text');
+        function type() {
+            const currentWord = typedWords[wordIndex];
+            if (isDeleting) typedElement.textContent = currentWord.substring(0, charIndex - 1), charIndex--;
+            else typedElement.textContent = currentWord.substring(0, charIndex + 1), charIndex++;
+            let typeSpeed = isDeleting ? 50 : 100;
+            if (!isDeleting && charIndex === currentWord.length) typeSpeed = 2000, isDeleting = true;
+            else if (isDeleting && charIndex === 0) isDeleting = false, wordIndex = (wordIndex + 1) % typedWords.length, typeSpeed = 500;
+            setTimeout(type, typeSpeed);
+        }
+        type();
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn'), mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        document.querySelectorAll('.mobile-link').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+        const tagBtns = document.querySelectorAll('.tag-btn'), articleCards = document.querySelectorAll('.article-card');
+        tagBtns.forEach(btn => btn.addEventListener('click', () => {
+            tagBtns.forEach(b => { b.classList.remove('active'); b.classList.add('text-muted'); b.style.background = ''; b.style.color = ''; });
+            btn.classList.add('active'); btn.classList.remove('text-muted');
+            const tag = btn.dataset.tag;
+            articleCards.forEach(card => {
+                const tags = card.dataset.tags.split(' ');
+                if (tag === 'all' || tags.includes(tag)) { card.style.display = 'block'; setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 50); }
+                else { card.style.opacity = '0'; card.style.transform = 'translateY(20px)'; setTimeout(() => { card.style.display = 'none'; }, 300); }
+            });
+        }));
+        window.openArticle = (card) => {
+            const modal = document.getElementById('articleModal'), modalTitle = document.getElementById('modalTitle'), modalBody = document.getElementById('modalBody'), modalTag = document.getElementById('modalTag');
+            modalTitle.textContent = card.querySelector('h3').textContent;
+            const tagSpan = card.querySelector('.absolute.top-4.left-4');
+            modalTag.textContent = tagSpan ? tagSpan.textContent.trim() : 'PROJECT';
+            const source = card.querySelector('.article-source');
+            let bodyHTML = '';
+            if (source && source.content) {
+                source.content.querySelectorAll('h2, h3, p, ul, a').forEach(el => bodyHTML += el.outerHTML);
+            }
+            modalBody.innerHTML = bodyHTML;
+            modal.classList.remove('invisible', 'opacity-0'); modal.classList.add('opacity-100');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        };
+        window.closeArticle = (event) => {
+            if (event && event.target !== event.currentTarget && event.target.closest('#modalContent')) return;
+            const modal = document.getElementById('articleModal');
+            modal.classList.add('invisible', 'opacity-0'); modal.classList.remove('opacity-100');
+            document.body.style.overflow = '';
+        };
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeArticle(); });
+        document.getElementById('contactForm').addEventListener('submit', (e) => { e.preventDefault(); const toast = document.getElementById('toast'); toast.classList.add('show'); e.target.reset(); setTimeout(() => toast.classList.remove('show'), 3000); });
+    </script>
+</body>
+
+</html>
