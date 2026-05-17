@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrizPages — HTML Template Showcase</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            bricolage: ['Bricolage Grotesque', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fafafa; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+    /* Noise */
+    .noise-overlay { position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.04; }
+
+    /* Animations */
+    @keyframes cinematicEntrance {
+      0% { transform: translateY(40px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    .animate-entry { opacity: 0; animation: cinematicEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .delay-1 { animation-delay: 0.15s; }
+    .delay-2 { animation-delay: 0.3s; }
+    .delay-3 { animation-delay: 0.45s; }
+    .delay-4 { animation-delay: 0.6s; }
+    .delay-5 { animation-delay: 0.75s; }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .shimmer-text {
+      background: linear-gradient(90deg, #fafafa 0%, #10b981 25%, #fafafa 50%, #10b981 75%, #fafafa 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 6s linear infinite;
+    }
+
+    /* Cards */
+    .template-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+    .template-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(16,185,129,0.3);
+      box-shadow: 0 25px 60px -15px rgba(16,185,129,0.15), 0 0 0 1px rgba(16,185,129,0.1);
+    }
+    .template-card:hover .card-preview img {
+      transform: scale(1.05);
+    }
+    .template-card:hover .card-overlay {
+      opacity: 1;
+    }
+    .template-card:hover .view-btn {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .card-preview { position: relative; overflow: hidden; aspect-ratio: 16/10; }
+    .card-preview img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, rgba(10,10,10,0.3) 50%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .view-btn {
+      transform: translateY(10px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+    }
+
+    /* Filter pills */
+    .filter-pill {
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: #737373;
+      background: transparent;
+      border: 1px solid transparent;
+      transition: all 0.3s;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-pill:hover { color: #d4d4d4; background: rgba(255,255,255,0.04); }
+    .filter-pill.active {
+      color: #10b981;
+      background: rgba(16,185,129,0.08);
+      border-color: rgba(16,185,129,0.2);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(24px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+
+    .modal-container {
+      width: 100%; max-width: 90rem;
+      height: 90vh;
+      background: #0d0d0d;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .modal-overlay.open .modal-container { transform: scale(1) translateY(0); }
+
+    .modal-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      flex-shrink: 0;
+    }
+
+    .modal-iframe-wrap {
+      flex: 1; position: relative; overflow: hidden;
+    }
+    .modal-iframe-wrap iframe {
+      width: 100%; height: 100%; border: none;
+      background: #fff;
+    }
+
+    /* Loading spinner for iframe */
+    .iframe-loader {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #0d0d0d;
+      transition: opacity 0.4s;
+    }
+    .iframe-loader.hidden { opacity: 0; pointer-events: none; }
+
+    .spinner {
+      width: 40px; height: 40px;
+      border: 2px solid rgba(255,255,255,0.08);
+      border-top-color: #10b981;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Tag pill */
+    .tag-pill {
+      display: inline-flex; align-items: center; gap: 0.25rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    /* Stats counter */
+    .stat-number {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(180deg, #fafafa 0%, rgba(250,250,250,0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: #10b981; color: #fff; padding: 0.75rem 1.25rem; border-radius: 0.75rem; font-size: 0.875rem; font-weight: 500; transform: translateY(120%); opacity: 0; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 200; pointer-events: none; }
+    .toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- Noise -->
+  <svg class="noise-overlay" width="100%" height="100%">
+    <filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter>
+    <rect width="100%" height="100%" filter="url(#noise)"/>
+  </svg>
+
+  <!-- ====== NAVIGATION ====== -->
+  <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-entry">
+    <div class="flex items-center gap-1 bg-neutral-900/80 backdrop-blur-2xl border border-white/10 rounded-full pl-2 pr-5 py-2 shadow-2xl">
+      <a href="#" class="flex items-center gap-2.5 bg-white rounded-full px-3.5 py-1.5">
+        <iconify-icon icon="mdi:code-braces" style="color:#10b981; font-size:1.1rem;"></iconify-icon>
+        <span class="font-bricolage font-semibold text-sm text-black tracking-tight">KrizPages</span>
+      </a>
+      <div class="hidden md:flex items-center gap-0.5 ml-3">
+        <a href="#showcase" class="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors rounded-full hover:bg-white/5">Showcase</a>
+        <a href="#stats" class="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors rounded-full hover:bg-white/5">Stats</a>
+        <a href="#about" class="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors rounded-full hover:bg-white/5">About</a>
+      </div>
+      <a href="https://github.com/altkriz" target="_blank" class="hidden md:flex ml-2 items-center gap-1.5 px-3 py-1.5 text-sm text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/5">
+        <iconify-icon icon="mdi:github" style="font-size:1rem;"></iconify-icon>
+        GitHub
+      </a>
+      <!-- Mobile menu -->
+      <button id="mobileMenuBtn" class="md:hidden ml-2 p-1.5 text-white/60 hover:text-white transition-colors">
+        <iconify-icon icon="mdi:menu" style="font-size:1.2rem;"></iconify-icon>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Panel -->
+  <div id="mobileMenu" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center gap-6 opacity-0 pointer-events-none transition-opacity duration-300">
+    <button id="closeMobileMenu" class="absolute top-8 right-8 text-white/60 hover:text-white">
+      <iconify-icon icon="mdi:close" style="font-size:1.5rem;"></iconify-icon>
+    </button>
+    <a href="#showcase" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">Showcase</a>
+    <a href="#stats" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">Stats</a>
+    <a href="#about" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">About</a>
+    <a href="https://github.com/altkriz" target="_blank" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors">GitHub</a>
+  </div>
+
+  <!-- ====== HERO ====== -->
+  <section class="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden">
+    <!-- Background glows -->
+    <div class="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[30vw] h-[30vw] bg-emerald-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="text-center max-w-4xl relative z-10">
+      <!-- Badge -->
+      <div class="animate-entry mb-8 inline-flex">
+        <div class="flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/10 bg-white/5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500" style="animation: pulse-glow 2s ease-in-out infinite;"></span>
+          <span class="text-xs font-mono uppercase tracking-widest text-white/60">Open Source Template Gallery</span>
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h1 class="animate-entry delay-1 font-bricolage text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.9] tracking-tight mb-6">
+        <span class="block">Crafted with</span>
+        <span class="shimmer-text">code &amp; care</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="animate-entry delay-2 text-lg md:text-xl font-light text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+        A curated collection of hand-built HTML, CSS &amp; JS templates. Each page is a standalone creation — browse, preview live, and use them freely.
+      </p>
+
+      <!-- CTA -->
+      <div class="animate-entry delay-3 flex flex-wrap justify-center gap-4">
+        <a href="#showcase" class="inline-flex items-center gap-2 bg-white text-black px-7 py-3.5 rounded-full font-medium text-sm hover:bg-white/90 transition-colors">
+          <iconify-icon icon="mdi:eye" style="font-size:1.1rem;"></iconify-icon>
+          Browse Templates
+        </a>
+        <a href="https://github.com/altkriz" target="_blank" class="inline-flex items-center gap-2 bg-white/5 border border-white/10 text-white px-7 py-3.5 rounded-full font-medium text-sm hover:bg-white/10 transition-colors">
+          <iconify-icon icon="mdi:github" style="font-size:1.1rem;"></iconify-icon>
+          View Source
+        </a>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="animate-entry delay-5 mt-16 flex flex-col items-center gap-2 text-white/20">
+        <span class="text-xs font-mono uppercase tracking-widest">Scroll to explore</span>
+        <iconify-icon icon="mdi:chevron-down" style="font-size:1.25rem; animation: float 2s ease-in-out infinite;"></iconify-icon>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SHOWCASE ====== -->
+  <section id="showcase" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+      <!-- Section header -->
+      <div class="reveal mb-12">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div>
+            <p class="text-xs font-mono uppercase tracking-widest text-emerald-500 mb-3">Showcase</p>
+            <h2 class="font-bricolage text-4xl md:text-5xl font-semibold tracking-tight">Template Gallery</h2>
+          </div>
+          <p class="text-neutral-400 font-light text-lg max-w-md">Click any template to preview it live in a full-screen overlay. All templates are built with pure HTML, CSS &amp; JS.</p>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="reveal mb-10 flex flex-wrap gap-2" id="filterBar">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <!-- Dynamically populated from page tags -->
+      </div>
+
+      <!-- Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="templateGrid">
+        <!-- Dynamically populated -->
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyState" class="hidden text-center py-20">
+        <iconify-icon icon="mdi:file-search-outline" style="font-size:3rem; color:rgba(255,255,255,0.15);"></iconify-icon>
+        <p class="mt-4 text-neutral-500 font-light text-lg">No templates match this filter.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== STATS ====== -->
+  <section id="stats" class="py-24 px-6 border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="stat-number" id="statTemplates">0</div>
+          <p class="text-sm text-neutral-500 mt-2 font-light">Templates</p>
+        </div>
+        <div class="text-center">
+          <div class="stat-number">3</div>
+          <p class="text-sm text-neutral-500 mt-2 font-light">Technologies</p>
+        </div>
+        <div class="text-center">
+          <div class="stat-number">100%</div>
+          <p class="text-sm text-neutral-500 mt-2 font-light">Open Source</p>
+        </div>
+        <div class="text-center">
+          <div class="stat-number">0</div>
+          <p class="text-sm text-neutral-500 mt-2 font-light">Dependencies</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ABOUT ====== -->
+  <section id="about" class="py-24 px-6 border-t border-white/5">
+    <div class="max-w-4xl mx-auto">
+      <div class="reveal">
+        <p class="text-xs font-mono uppercase tracking-widest text-emerald-500 mb-3">About</p>
+        <h2 class="font-bricolage text-4xl md:text-5xl font-semibold tracking-tight mb-8">What is KrizPages?</h2>
+      </div>
+      <div class="reveal grid md:grid-cols-2 gap-12">
+        <div>
+          <p class="text-neutral-400 font-light text-lg leading-relaxed mb-6">
+            KrizPages is a growing collection of hand-crafted web templates. Each template is a single HTML file — no frameworks, no build steps, no dependencies. Just clean code that works.
+          </p>
+          <p class="text-neutral-400 font-light text-lg leading-relaxed">
+            Every page showcases different techniques in HTML, CSS, and JavaScript. From landing pages to dashboards, from minimal to experimental — the collection keeps growing.
+          </p>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+              <iconify-icon icon="mdi:language-html5" style="color:#10b981; font-size:1.2rem;"></iconify-icon>
+            </div>
+            <div>
+              <p class="font-medium text-sm mb-1">Pure HTML/CSS/JS</p>
+              <p class="text-xs text-neutral-500 font-light">No frameworks, no build tools required</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+              <iconify-icon icon="mdi:open-in-new" style="color:#10b981; font-size:1.2rem;"></iconify-icon>
+            </div>
+            <div>
+              <p class="font-medium text-sm mb-1">Live Preview</p>
+              <p class="text-xs text-neutral-500 font-light">View any template in an instant iframe overlay</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center shrink-0">
+              <iconify-icon icon="mdi:plus-circle" style="color:#10b981; font-size:1.2rem;"></iconify-icon>
+            </div>
+            <div>
+              <p class="font-medium text-sm mb-1">Always Growing</p>
+              <p class="text-xs text-neutral-500 font-light">New templates added regularly</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="py-12 px-6 border-t border-white/5">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <iconify-icon icon="mdi:code-braces" style="color:#10b981; font-size:1.1rem;"></iconify-icon>
+        <span class="font-bricolage font-semibold text-sm tracking-tight">KrizPages</span>
+        <span class="text-neutral-600 text-xs font-mono ml-2">© 2025</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/altkriz" target="_blank" class="text-neutral-500 hover:text-white transition-colors">
+          <iconify-icon icon="mdi:github" style="font-size:1.25rem;"></iconify-icon>
+        </a>
+        <a href="https://altkriz.github.io/pages/" target="_blank" class="text-neutral-500 hover:text-white transition-colors">
+          <iconify-icon icon="mdi:open-in-new" style="font-size:1.15rem;"></iconify-icon>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== IFRAME MODAL ====== -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal-container">
+      <div class="modal-topbar">
+        <div class="flex items-center gap-3">
+          <button onclick="closeModal()" class="w-9 h-9 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all">
+            <iconify-icon icon="mdi:close" style="font-size:1.1rem;"></iconify-icon>
+          </button>
+          <div>
+            <p class="text-sm font-medium" id="modalTitle">Template</p>
+            <p class="text-xs text-neutral-500 font-mono" id="modalUrl">—</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openInNewTab()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 border border-white/8 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all">
+            <iconify-icon icon="mdi:open-in-new" style="font-size:0.85rem;"></iconify-icon>
+            New Tab
+          </button>
+          <button onclick="copyPageLink()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 border border-white/8 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all">
+            <iconify-icon icon="mdi:link-variant" style="font-size:0.85rem;"></iconify-icon>
+            Copy Link
+          </button>
+        </div>
+      </div>
+      <div class="modal-iframe-wrap">
+        <div class="iframe-loader" id="iframeLoader">
+          <div class="spinner"></div>
+          <p class="text-xs text-neutral-500 font-mono mt-4">Loading template…</p>
+        </div>
+        <iframe id="modalIframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope" sandbox="allow-scripts allow-same-origin allow-popups"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ╔══════════════════════════════════════════════════════════════╗
+    // ║  PAGES DATABASE — Add new pages here!                       ║
+    // ║  Just add a new object to this array and everything         ║
+    // ║  (grid, filters, stats, iframe) updates automatically.      ║
+    // ╚══════════════════════════════════════════════════════════════╝
+    const pages = [
+      {
+        id: 1,
+        title: "Page One",
+        description: "A sleek, modern landing page with smooth animations and bold typography.",
+        tags: ["Landing", "Dark"],
+        thumbnail: "https://picsum.photos/seed/kriz-p1/800/500.jpg"
+      },
+      {
+        id: 2,
+        title: "Page Two",
+        description: "An interactive dashboard-style layout with data-driven components.",
+        tags: ["Dashboard", "Interactive"],
+        thumbnail: "https://picsum.photos/seed/kriz-p2/800/500.jpg"
+      },
+      {
+        id: 3,
+        title: "Page Three",
+        description: "A creative portfolio layout with experimental CSS techniques.",
+        tags: ["Portfolio", "Creative"],
+        thumbnail: "https://picsum.photos/seed/kriz-p3/800/500.jpg"
+      }
+      // ── ADD MORE PAGES BELOW ──────────────────────────
+      // {
+      //   id: 4,
+      //   title: "Page Four",
+      //   description: "Your new template description here.",
+      //   tags: ["Landing", "Minimal"],
+      //   thumbnail: "https://picsum.photos/seed/kriz-p4/800/500.jpg"
+      // },
+      // {
+      //   id: 5,
+      //   title: "Page Five",
+      //   description: "Another awesome template.",
+      //   tags: ["Dashboard", "Animation"],
+      //   thumbnail: "https://picsum.photos/seed/kriz-p5/800/500.jpg"
+      // },
+      // ── Just keep adding! The rest is automatic. ──────
+    ];
+
+    // ─── CONFIG ────────────────────────────────────────────
+    const BASE_URL = "https://altkriz.github.io/pages/page";
+
+    // ─── DERIVED DATA ─────────────────────────────────────
+    // Collect all unique tags
+    const allTags = [...new Set(pages.flatMap(p => p.tags))].sort();
+
+    // ─── RENDER FILTERS ───────────────────────────────────
+    const filterBar = document.getElementById('filterBar');
+    allTags.forEach(tag => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-pill';
+      btn.dataset.filter = tag;
+      btn.textContent = tag;
+      filterBar.appendChild(btn);
+    });
+
+    // Filter click handler
+    filterBar.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('filter-pill')) return;
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      e.target.classList.add('active');
+      renderGrid(e.target.dataset.filter);
+    });
+
+    // ─── RENDER GRID ──────────────────────────────────────
+    const templateGrid = document.getElementById('templateGrid');
+    const emptyState = document.getElementById('emptyState');
+
+    function renderGrid(filter = 'all') {
+      const filtered = filter === 'all' 
+        ? pages 
+        : pages.filter(p => p.tags.includes(filter));
+
+      templateGrid.innerHTML = '';
+      emptyState.classList.toggle('hidden', filtered.length > 0);
+
+      filtered.forEach((page, index) => {
+        const card = document.createElement('div');
+        card.className = 'template-card reveal';
+        card.dataset.pageId = page.id;
+        card.style.transitionDelay = `${index * 0.08}s`;
+
+        const tagColors = {
+          'Landing': 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+          'Dashboard': 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+          'Portfolio': 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
+          'Creative': 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+          'Dark': 'bg-neutral-500/10 text-neutral-400 border border-neutral-500/20',
+          'Interactive': 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
+          'Minimal': 'bg-pink-500/10 text-pink-400 border border-pink-500/20',
+          'Animation': 'bg-orange-500/10 text-orange-400 border border-orange-500/20',
+        };
+
+        const tagsHTML = page.tags.map(tag => {
+          const colorClass = tagColors[tag] || 'bg-white/5 text-white/50 border border-white/10';
+          return `<span class="tag-pill ${colorClass}">${tag}</span>`;
+        }).join('');
+
+        card.innerHTML = `
+          <div class="card-preview">
+            <img src="${page.thumbnail}" alt="${page.title}" loading="lazy">
+            <div class="card-overlay">
+              <div class="view-btn flex items-center gap-2 bg-white text-black px-5 py-2.5 rounded-full font-medium text-sm shadow-lg">
+                <iconify-icon icon="mdi:play" style="font-size:1rem;"></iconify-icon>
+                Preview Live
+              </div>
+            </div>
+          </div>
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-3 mb-2">
+              <h3 class="font-bricolage font-semibold text-lg tracking-tight">${page.title}</h3>
+              <span class="text-xs font-mono text-neutral-600 shrink-0 mt-1">#${String(page.id).padStart(2, '0')}</span>
+            </div>
+            <p class="text-sm text-neutral-500 font-light leading-relaxed mb-4">${page.description}</p>
+            <div class="flex flex-wrap gap-1.5">${tagsHTML}</div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => openModal(page));
+        templateGrid.appendChild(card);
+      });
+
+      // Trigger reveal after a tick
+      requestAnimationFrame(() => {
+        document.querySelectorAll('#templateGrid .reveal').forEach(el => {
+          el.classList.add('visible');
+        });
+      });
+    }
+
+    // Initial render
+    renderGrid();
+
+    // ─── STATS ────────────────────────────────────────────
+    document.getElementById('statTemplates').textContent = pages.length;
+
+    // ─── MODAL ────────────────────────────────────────────
+    const modal = document.getElementById('modal');
+    const modalIframe = document.getElementById('modalIframe');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalUrl = document.getElementById('modalUrl');
+    const iframeLoader = document.getElementById('iframeLoader');
+    let currentModalUrl = '';
+
+    function openModal(page) {
+      currentModalUrl = `${BASE_URL}${page.id}.html`;
+      modalTitle.textContent = page.title;
+      modalUrl.textContent = `page${page.id}.html`;
+
+      // Reset
+      iframeLoader.classList.remove('hidden');
+      modalIframe.src = '';
+
+      // Open
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Load iframe after modal is visible
+      setTimeout(() => {
+        modalIframe.src = currentModalUrl;
+      }, 100);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        modalIframe.src = '';
+      }, 400);
+    }
+
+    // Iframe load handler
+    modalIframe.addEventListener('load', () => {
+      if (modalIframe.src) {
+        iframeLoader.classList.add('hidden');
+      }
+    });
+
+    // Close on overlay click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+    });
+
+    // Open in new tab
+    function openInNewTab() {
+      if (currentModalUrl) window.open(currentModalUrl, '_blank');
+    }
+
+    // Copy link
+    function copyPageLink() {
+      if (currentModalUrl) {
+        navigator.clipboard.writeText(currentModalUrl).then(() => {
+          showToast('Link copied to clipboard!');
+        });
+      }
+    }
+
+    // ─── TOAST ────────────────────────────────────────────
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    // ─── SCROLL REVEAL ────────────────────────────────────
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // ─── MOBILE MENU ─────────────────────────────────────
+    const mobileMenu = document.getElementById('mobileMenu');
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      mobileMenu.style.opacity = '1';
+      mobileMenu.style.pointerEvents = 'auto';
+    });
+    document.getElementById('closeMobileMenu').addEventListener('click', () => {
+      mobileMenu.style.opacity = '0';
+      mobileMenu.style.pointerEvents = 'none';
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.style.opacity = '0';
+        mobileMenu.style.pointerEvents = 'none';
+      });
+    });
+
+    // ─── SMOOTH SCROLL ────────────────────────────────────
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
