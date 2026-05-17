@@ -155,10 +155,13 @@
 
     .modal-topbar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1rem 1.5rem;
+      padding: 0.75rem 1rem;
       border-bottom: 1px solid rgba(255,255,255,0.06);
       background: rgba(255,255,255,0.02);
       flex-shrink: 0;
+    }
+    @media (min-width: 640px) {
+      .modal-topbar { padding: 1rem 1.5rem; }
     }
 
     .modal-iframe-wrap {
@@ -169,7 +172,7 @@
       background: #fff;
     }
 
-    /* Loading spinner for iframe */
+    /* Loading spinner */
     .iframe-loader {
       position: absolute; inset: 0;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -226,44 +229,52 @@
   </svg>
 
   <!-- ====== NAVIGATION ====== -->
-  <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-entry">
-    <div class="flex items-center gap-1 bg-neutral-900/80 backdrop-blur-2xl border border-white/10 rounded-full pl-2 pr-5 py-2 shadow-2xl">
-      <a href="#" class="flex items-center gap-2.5 bg-white rounded-full px-3.5 py-1.5">
-        <iconify-icon icon="mdi:code-braces" style="color:#10b981; font-size:1.1rem;"></iconify-icon>
+  <nav class="fixed top-5 left-1/2 -translate-x-1/2 z-50 animate-entry w-[95%] max-w-4xl">
+    <div class="flex items-center justify-between bg-neutral-900/80 backdrop-blur-2xl border border-white/10 rounded-full pl-2 pr-3 py-1.5 shadow-2xl">
+      <a href="#" class="flex items-center gap-2 bg-white rounded-full px-3 py-1.5 shrink-0">
+        <iconify-icon icon="mdi:code-braces" style="color:#10b981; font-size:1rem;"></iconify-icon>
         <span class="font-bricolage font-semibold text-sm text-black tracking-tight">KrizPages</span>
       </a>
-      <div class="hidden md:flex items-center gap-0.5 ml-3">
+      
+      <!-- Desktop Nav Links -->
+      <div class="hidden lg:flex items-center gap-1 ml-2">
         <a href="#showcase" class="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors rounded-full hover:bg-white/5">Showcase</a>
         <a href="#stats" class="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors rounded-full hover:bg-white/5">Stats</a>
         <a href="#about" class="px-3 py-1.5 text-sm text-white/60 hover:text-white transition-colors rounded-full hover:bg-white/5">About</a>
       </div>
-      <a href="https://github.com/altkriz" target="_blank" class="hidden md:flex ml-2 items-center gap-1.5 px-3 py-1.5 text-sm text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/5">
-        <iconify-icon icon="mdi:github" style="font-size:1rem;"></iconify-icon>
-        GitHub
-      </a>
-      <!-- Mobile menu -->
-      <button id="mobileMenuBtn" class="md:hidden ml-2 p-1.5 text-white/60 hover:text-white transition-colors">
-        <iconify-icon icon="mdi:menu" style="font-size:1.2rem;"></iconify-icon>
+
+      <div class="hidden lg:flex items-center gap-2 ml-auto">
+        <a href="https://github.com/altkriz" target="_blank" class="flex items-center gap-1.5 px-3 py-1.5 text-sm text-white/40 hover:text-white transition-colors rounded-full hover:bg-white/5">
+          <iconify-icon icon="mdi:github" style="font-size:1rem;"></iconify-icon>
+          GitHub
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileMenuBtn" class="lg:hidden ml-2 p-1.5 text-white/60 hover:text-white transition-colors">
+        <iconify-icon icon="mdi:menu" style="font-size:1.25rem;"></iconify-icon>
       </button>
     </div>
   </nav>
 
   <!-- Mobile Menu Panel -->
-  <div id="mobileMenu" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex flex-col items-center justify-center gap-6 opacity-0 pointer-events-none transition-opacity duration-300">
-    <button id="closeMobileMenu" class="absolute top-8 right-8 text-white/60 hover:text-white">
-      <iconify-icon icon="mdi:close" style="font-size:1.5rem;"></iconify-icon>
+  <div id="mobileMenu" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-300">
+    <button id="closeMobileMenu" class="absolute top-6 right-6 text-white/60 hover:text-white p-2">
+      <iconify-icon icon="mdi:close" style="font-size:1.75rem;"></iconify-icon>
     </button>
-    <a href="#showcase" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">Showcase</a>
-    <a href="#stats" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">Stats</a>
-    <a href="#about" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">About</a>
-    <a href="https://github.com/altkriz" target="_blank" class="text-2xl font-bricolage text-white/80 hover:text-white transition-colors">GitHub</a>
+    <a href="#showcase" class="text-3xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">Showcase</a>
+    <a href="#stats" class="text-3xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">Stats</a>
+    <a href="#about" class="text-3xl font-bricolage text-white/80 hover:text-white transition-colors mobile-link">About</a>
+    <a href="https://github.com/altkriz" target="_blank" class="text-3xl font-bricolage text-white/80 hover:text-white transition-colors flex items-center gap-3">
+      <iconify-icon icon="mdi:github" style="font-size:1.75rem;"></iconify-icon> GitHub
+    </a>
   </div>
 
   <!-- ====== HERO ====== -->
-  <section class="min-h-screen flex flex-col justify-center items-center px-6 relative overflow-hidden">
+  <section class="min-h-screen flex flex-col justify-center items-center px-6 pt-28 pb-20 relative overflow-hidden">
     <!-- Background glows -->
-    <div class="absolute top-1/4 left-1/4 w-[40vw] h-[40vw] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-[30vw] h-[30vw] bg-emerald-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute top-1/4 left-1/4 w-[50vw] h-[50vw] bg-emerald-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[40vw] h-[40vw] bg-emerald-600/5 rounded-full blur-[100px] pointer-events-none"></div>
 
     <div class="text-center max-w-4xl relative z-10">
       <!-- Badge -->
@@ -277,7 +288,7 @@
       <!-- Title -->
       <h1 class="animate-entry delay-1 font-bricolage text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.9] tracking-tight mb-6">
         <span class="block">Crafted with</span>
-        <span class="shimmer-text">code &amp; care</span>
+        <span class="shimmer-text">code & care</span>
       </h1>
 
       <!-- Subtitle -->
@@ -322,13 +333,10 @@
       <!-- Filters -->
       <div class="reveal mb-10 flex flex-wrap gap-2" id="filterBar">
         <button class="filter-pill active" data-filter="all">All</button>
-        <!-- Dynamically populated from page tags -->
       </div>
 
       <!-- Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="templateGrid">
-        <!-- Dynamically populated -->
-      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="templateGrid"></div>
 
       <!-- Empty state -->
       <div id="emptyState" class="hidden text-center py-20">
@@ -434,23 +442,23 @@
   <div class="modal-overlay" id="modal">
     <div class="modal-container">
       <div class="modal-topbar">
-        <div class="flex items-center gap-3">
-          <button onclick="closeModal()" class="w-9 h-9 rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all">
+        <div class="flex items-center gap-3 min-w-0">
+          <button onclick="closeModal()" class="w-8 h-8 md:w-9 md:h-9 rounded-lg md:rounded-xl bg-white/5 border border-white/8 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all shrink-0">
             <iconify-icon icon="mdi:close" style="font-size:1.1rem;"></iconify-icon>
           </button>
-          <div>
-            <p class="text-sm font-medium" id="modalTitle">Template</p>
-            <p class="text-xs text-neutral-500 font-mono" id="modalUrl">—</p>
+          <div class="min-w-0">
+            <p class="text-sm font-medium truncate" id="modalTitle">Template</p>
+            <p class="text-xs text-neutral-500 font-mono truncate" id="modalUrl">—</p>
           </div>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="openInNewTab()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 border border-white/8 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all">
+        <div class="flex items-center gap-2 shrink-0">
+          <button onclick="openInNewTab()" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg md:rounded-xl bg-white/5 border border-white/8 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all">
             <iconify-icon icon="mdi:open-in-new" style="font-size:0.85rem;"></iconify-icon>
             New Tab
           </button>
-          <button onclick="copyPageLink()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/5 border border-white/8 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all">
+          <button onclick="copyPageLink()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg md:rounded-xl bg-white/5 border border-white/8 text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all">
             <iconify-icon icon="mdi:link-variant" style="font-size:0.85rem;"></iconify-icon>
-            Copy Link
+            <span class="hidden sm:inline">Copy Link</span>
           </button>
         </div>
       </div>
@@ -503,21 +511,12 @@
       //   tags: ["Landing", "Minimal"],
       //   thumbnail: "https://picsum.photos/seed/kriz-p4/800/500.jpg"
       // },
-      // {
-      //   id: 5,
-      //   title: "Page Five",
-      //   description: "Another awesome template.",
-      //   tags: ["Dashboard", "Animation"],
-      //   thumbnail: "https://picsum.photos/seed/kriz-p5/800/500.jpg"
-      // },
-      // ── Just keep adding! The rest is automatic. ──────
     ];
 
     // ─── CONFIG ────────────────────────────────────────────
     const BASE_URL = "https://altkriz.github.io/pages/page";
 
     // ─── DERIVED DATA ─────────────────────────────────────
-    // Collect all unique tags
     const allTags = [...new Set(pages.flatMap(p => p.tags))].sort();
 
     // ─── RENDER FILTERS ───────────────────────────────────
@@ -530,7 +529,6 @@
       filterBar.appendChild(btn);
     });
 
-    // Filter click handler
     filterBar.addEventListener('click', (e) => {
       if (!e.target.classList.contains('filter-pill')) return;
       document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
@@ -550,22 +548,22 @@
       templateGrid.innerHTML = '';
       emptyState.classList.toggle('hidden', filtered.length > 0);
 
+      const tagColors = {
+        'Landing': 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+        'Dashboard': 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
+        'Portfolio': 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
+        'Creative': 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+        'Dark': 'bg-neutral-500/10 text-neutral-400 border border-neutral-500/20',
+        'Interactive': 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
+        'Minimal': 'bg-pink-500/10 text-pink-400 border border-pink-500/20',
+        'Animation': 'bg-orange-500/10 text-orange-400 border border-orange-500/20',
+      };
+
       filtered.forEach((page, index) => {
         const card = document.createElement('div');
         card.className = 'template-card reveal';
         card.dataset.pageId = page.id;
         card.style.transitionDelay = `${index * 0.08}s`;
-
-        const tagColors = {
-          'Landing': 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-          'Dashboard': 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
-          'Portfolio': 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
-          'Creative': 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
-          'Dark': 'bg-neutral-500/10 text-neutral-400 border border-neutral-500/20',
-          'Interactive': 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20',
-          'Minimal': 'bg-pink-500/10 text-pink-400 border border-pink-500/20',
-          'Animation': 'bg-orange-500/10 text-orange-400 border border-orange-500/20',
-        };
 
         const tagsHTML = page.tags.map(tag => {
           const colorClass = tagColors[tag] || 'bg-white/5 text-white/50 border border-white/10';
@@ -596,7 +594,6 @@
         templateGrid.appendChild(card);
       });
 
-      // Trigger reveal after a tick
       requestAnimationFrame(() => {
         document.querySelectorAll('#templateGrid .reveal').forEach(el => {
           el.classList.add('visible');
@@ -604,7 +601,6 @@
       });
     }
 
-    // Initial render
     renderGrid();
 
     // ─── STATS ────────────────────────────────────────────
@@ -623,15 +619,12 @@
       modalTitle.textContent = page.title;
       modalUrl.textContent = `page${page.id}.html`;
 
-      // Reset
       iframeLoader.classList.remove('hidden');
       modalIframe.src = '';
 
-      // Open
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
 
-      // Load iframe after modal is visible
       setTimeout(() => {
         modalIframe.src = currentModalUrl;
       }, 100);
@@ -645,29 +638,24 @@
       }, 400);
     }
 
-    // Iframe load handler
     modalIframe.addEventListener('load', () => {
       if (modalIframe.src) {
         iframeLoader.classList.add('hidden');
       }
     });
 
-    // Close on overlay click
     modal.addEventListener('click', (e) => {
       if (e.target === modal) closeModal();
     });
 
-    // Close on ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
     });
 
-    // Open in new tab
     function openInNewTab() {
       if (currentModalUrl) window.open(currentModalUrl, '_blank');
     }
 
-    // Copy link
     function copyPageLink() {
       if (currentModalUrl) {
         navigator.clipboard.writeText(currentModalUrl).then(() => {
